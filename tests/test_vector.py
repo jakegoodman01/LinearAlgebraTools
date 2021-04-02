@@ -25,6 +25,13 @@ class TestVector(unittest.TestCase):
         for i in range(3):
             self.assertEqual(self.zero3.components[i], 0)
 
+    def test_copy(self):
+        self.assertTrue(
+            vc.vector_equals(
+                self.v1, self.v1.copy()
+            )
+        )
+
     def test_vector_equals(self):
         self.assertTrue(vc.vector_equals(self.v1, self.v2))
         self.assertFalse(vc.vector_equals(self.v1, self.v3))

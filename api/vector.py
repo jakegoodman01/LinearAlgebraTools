@@ -23,6 +23,13 @@ class Vector:
         zero = Vector([0] * self.dim)
         return zero
 
+    # copy() produces a copy of self
+    def copy(self):
+        new_vector = self.zero_vector()
+        for i in range(self.dim):
+            new_vector.components[i] = self.components[i]
+        return new_vector
+
 
 # vector_equals(v, w) produces true if v equals w
 # time: O(n)
