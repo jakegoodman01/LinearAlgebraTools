@@ -145,6 +145,36 @@ class TestVector(unittest.TestCase):
             vc.vector_scalar_multiply(self.w, 0).is_zero()
         )
 
+    def test_dot_product(self):
+        a = vc.Vector([2, 3])
+        b = vc.Vector([5, 7])
+        self.assertEqual(vc.dot_product(a, b), 31)
+        a = vc.Vector([3, -5, 2])
+        b = vc.Vector([-4, 4, -2])
+        self.assertEqual(vc.dot_product(a, b), -36)
+        self.assertEqual(
+            # Asserts: v * w = w * v
+            vc.dot_product(self.u, self.w),
+            vc.dot_product(self.w, self.u)
+        )
+        self.assertEqual(
+            # Asserts: (v + u) * w = v * w + u * w (additivity)
+            vc.dot_product(
+                vc.vector_add(self.v1, self.u),
+                self.w
+            ),
+            vc.dot_product(self.v1, self.w) + vc.dot_product(self.u, self.w)
+        )
+        s = 3
+        self.assertEqual(
+            # Asserts: (sw) * u = s(w * u) (multiplicity)
+            vc.dot_product(
+                vc.vector_scalar_multiply(self.w, s),
+                self.u
+            ),
+            vc.dot_product(self.w, self.u) * s
+        )
+
 
 if __name__ == '__main__':
     unittest.main()

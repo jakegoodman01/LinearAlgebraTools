@@ -48,6 +48,7 @@ def vector_equals(v: Vector, w: Vector) -> bool:
 
 
 # vector_add(v, w, *args) produces the sum of v, w and args
+# requires: v and w are in the same dimension
 # time: O(n)
 def vector_add(v: Vector, w: Vector, *args: Vector) -> Vector:
     assert v.dim == w.dim, "Can't add vectors of different dimensions"
@@ -69,6 +70,7 @@ def vector_negate(v: Vector) -> Vector:
 
 
 # vector_subtract(v, w) produces the difference v - w
+# requires: v and w are in the same dimension
 # time: O(n)
 def vector_subtract(v: Vector, w: Vector) -> Vector:
     return vector_add(v, vector_negate(w))
@@ -81,6 +83,17 @@ def vector_scalar_multiply(v: Vector, s: int) -> Vector:
     for i in range(v.dim):
         new_vector.components[i] *= s
     return new_vector
+
+
+# dot_product(v, w) produces the dot product of v and w
+# requires: v and w are in the same dimension
+# time: O(n)
+def dot_product(v: Vector, w: Vector):
+    assert v.dim == w.dim, "Can't dot vectors of different dimensions"
+    result = 0
+    for i in range(v.dim):
+        result += v.components[i] * w.components[i]
+    return result
 
 
 
