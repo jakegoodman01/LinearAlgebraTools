@@ -185,6 +185,14 @@ class TestVector(unittest.TestCase):
             vc.norm(vc.scalar_multiply(self.u, a)),
             abs(a) * vc.norm(self.u)
         )
+        a = vc.Vector(complex(2, -1), complex(-3, 2), complex(-4, -5))
+        self.assertTrue(
+            abs(vc.norm(a) - sqrt(59)) < TOLERANCE
+        )
+        print(a.field == 'complex')
+        self.assertTrue(
+            abs(vc.norm(vc.scalar_multiply(a, complex(1, 2))) - sqrt(295)) < TOLERANCE
+        )
 
     def test_normalize(self):
         a = vc.Vector(10, 0, 0)
@@ -239,6 +247,11 @@ class TestVector(unittest.TestCase):
         self.assertTrue(
             abs(vc.modulus(z) - sqrt(13)) < TOLERANCE
         )
+
+    def test_inner_product(self):
+        a = vc.Vector(complex(2, -3), complex(1, -2))
+        b = vc.Vector(complex(-3, 4), complex(3, 5))
+        self.assertEqual(vc.inner_product(a, b), complex(-25, -10))
 
 
 if __name__ == '__main__':

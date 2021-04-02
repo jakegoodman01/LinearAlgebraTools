@@ -25,8 +25,11 @@ TOLERANCE = 0.0001
 class Vector:
     def __init__(self, *args):
         self.components = []
+        self.field = 'real'
         for i in args:
             self.components.append(i)
+            if isinstance(i, complex):
+                self.field = 'complex'
         self.dim = len(self.components)
         assert self.dim > 0, "Empty Coordinates List"
 
@@ -48,10 +51,7 @@ class Vector:
 
     # copy() produces a copy of self
     def copy(self):
-        new_vector = self.zero_vector()
-        for i in range(self.dim):
-            new_vector.components[i] = self.components[i]
-        return new_vector
+        return Vector(*self.components)
 
 
 # vector_equals(v, w) produces true if v equals w
@@ -91,7 +91,9 @@ def subtract(v: Vector, w: Vector) -> Vector:
 
 
 # vector_scalar_multiply(v, s) produces the product of v and s
-def scalar_multiply(v: Vector, s: float) -> Vector:
+def scalar_multiply(v: Vector, s) -> Vector:
+    if isinstance(s, complex):
+        assert v.field == 'complex', "Can't multiply a real vector by a complex number"
     new_vector = v.copy()
     for i in range(v.dim):
         new_vector.components[i] *= s
@@ -108,8 +110,12 @@ def dot_product(v: Vector, w: Vector):
     return result
 
 
-# vector_length(v) produces the length (or norm) of v
+# norm(v) produces the length (or norm) of v
 def norm(v: Vector) -> float:
+    if v.field == 'complex':
+        arg = inner_product(v, v)
+        assert arg.imag == 0
+        return sqrt(inner_product(v, v).real)
     return sqrt(dot_product(v, v))
 
 
@@ -154,6 +160,17 @@ def perp(v: Vector, w: Vector) -> Vector:
     return subtract(v, proj(v, w))
 
 
+# vector_conj(v) produces the conjugate of vector v
+def vector_conj(v: Vector) -> Vector:
+    new_vector = v.copy()
+    for i in range(new_vector.dim):
+        new_vector.components[i] = conj(new_vector.components[i])
+    return new_vector
+
+
+# inner_product(w, z) produces the standard inner product <w, z>
+def inner_product(w: Vector, z: Vector) -> complex:
+    return dot_product(w, vector_conj(z))
 
 
 
