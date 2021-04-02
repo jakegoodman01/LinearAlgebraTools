@@ -1,6 +1,21 @@
 
 from typing import List
-from math import acos, sqrt
+from math import acos, cos, sqrt
+
+"""-------------------COMPLEX NUMBER STUFF---------------------"""
+
+
+# conj(z) produces the conjugate of z
+def conj(z: complex) -> complex:
+    return complex(z.real, -z.imag)
+
+
+# modulus(z) produces the modulus of z
+def modulus(z: complex) -> float:
+    arg = z * conj(z)  # note that arg will be real
+    assert arg.imag == 0
+    return sqrt(arg.real)
+
 
 """------------------------VECTOR STUFF------------------------"""
 
@@ -118,6 +133,25 @@ def angle(v: Vector, w: Vector) -> float:
     return acos(arg)
 
 
+# proj(v, w) produces the projection of v along w
+def proj(v: Vector, w: Vector) -> Vector:
+    dot = dot_product(v, w)
+    scalar = dot / (norm(w) ** 2)
+    return scalar_multiply(w, scalar)
+
+
+# component(v, w) produces the component of v along w
+# requires: w != 0
+def component(v: Vector, w: Vector) -> float:
+    assert not w.is_zero(), "w is zero"
+    return norm(v) * cos(angle(v, w))
+
+
+# perp(v, w) produces the remainder of v along w, a.k.a. perp
+# requires: w != 0
+def perp(v: Vector, w: Vector) -> Vector:
+    assert not w.is_zero(), "w is zero"
+    return subtract(v, proj(v, w))
 
 
 

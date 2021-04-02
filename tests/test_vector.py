@@ -3,6 +3,8 @@ import unittest
 from api import vector as vc
 from math import sqrt
 
+TOLERANCE = 0.001
+
 
 class TestVector(unittest.TestCase):
     def setUp(self):
@@ -194,7 +196,49 @@ class TestVector(unittest.TestCase):
         )
 
     def test_angle(self):
-        pass
+        a = vc.Vector(1, 4)
+        b = vc.Vector(-2, 3)
+        self.assertTrue(
+            abs(vc.angle(a, b) - 0.833) < TOLERANCE
+        )
+        a = vc.Vector(1, 3, 5)
+        b = vc.Vector(2, -4, 3)
+        self.assertTrue(
+            abs(vc.angle(a, b) - 1.413) < TOLERANCE
+        )
+
+    def test_proj(self):
+        a = vc.Vector(3, -4, 5)
+        b = vc.Vector(1, 2, 3)
+        self.assertTrue(
+            vc.is_equal(
+                vc.proj(a, b),
+                vc.scalar_multiply(b, 5/7)
+            )
+        )
+
+    def test_component(self):
+        a = vc.Vector(3, -4, 5)
+        b = vc.Vector(1, 2, 3)
+        self.assertTrue(
+            abs(vc.component(a, b) - (5 / 7) * sqrt(14)) < TOLERANCE
+        )
+
+    def test_perp(self):
+        a = vc.Vector(3, -4, 5)
+        b = vc.Vector(1, 2, 3)
+        self.assertTrue(
+            vc.is_equal(
+                vc.perp(a, b),
+                vc.scalar_multiply(vc.Vector(16, -38, 20), 1/7)
+            )
+        )
+
+    def test_modulus(self):
+        z = complex(2, -3)
+        self.assertTrue(
+            abs(vc.modulus(z) - sqrt(13)) < TOLERANCE
+        )
 
 
 if __name__ == '__main__':
