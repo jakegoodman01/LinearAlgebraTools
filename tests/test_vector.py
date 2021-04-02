@@ -1,6 +1,7 @@
 import unittest
 
 from api import vector as vc
+from math import sqrt
 
 
 class TestVector(unittest.TestCase):
@@ -181,6 +182,15 @@ class TestVector(unittest.TestCase):
             # Asserts: norm(av) = |a| * norm(v)
             vc.vector_length(vc.vector_scalar_multiply(self.u, a)),
             abs(a) * vc.vector_length(self.u)
+        )
+
+    def test_normalize(self):
+        a = vc.Vector([10, 0, 0])
+        self.assertTrue(
+            vc.vector_equals(
+                vc.normalize(a),
+                vc.Vector([1, 0, 0])
+            )
         )
 
 

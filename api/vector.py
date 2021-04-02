@@ -4,6 +4,8 @@ from math import sqrt
 
 """------------------------VECTOR STUFF------------------------"""
 
+TOLERANCE = 0.0001
+
 
 class Vector:
     def __init__(self, nums: List[float]):
@@ -42,7 +44,7 @@ class Vector:
 def vector_equals(v: Vector, w: Vector) -> bool:
     if v.dim == w.dim:
         for i in range(v.dim):
-            if v.components[i] != w.components[i]:
+            if abs(v.components[i] - w.components[i]) > TOLERANCE:
                 return False
         return True
     return False
@@ -101,6 +103,15 @@ def dot_product(v: Vector, w: Vector):
 # time: O(n)
 def vector_length(v: Vector) -> float:
     return sqrt(dot_product(v, v))
+
+
+# normalize(v) produces v normalized
+# time: O(n)
+def normalize(v: Vector) -> Vector:
+    return vector_scalar_multiply(
+        v,
+        1 / vector_length(v)
+    )
 
 
 
