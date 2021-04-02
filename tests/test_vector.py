@@ -224,6 +224,14 @@ class TestVector(unittest.TestCase):
                 vc.scalar_multiply(b, 5/7)
             )
         )
+        a = vc.Vector(complex(1, 0), complex(0, 1), complex(1, 1))
+        b = vc.Vector(complex(1, -1), complex(2, -1), complex(3, 1))
+        self.assertTrue(
+            vc.is_equal(
+                vc.proj(a, b),
+                vc.scalar_multiply(b, complex(4, 5) / 17)
+            )
+        )
 
     def test_component(self):
         a = vc.Vector(3, -4, 5)

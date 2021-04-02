@@ -141,9 +141,16 @@ def angle(v: Vector, w: Vector) -> float:
 
 # proj(v, w) produces the projection of v along w
 def proj(v: Vector, w: Vector) -> Vector:
-    dot = dot_product(v, w)
-    scalar = dot / (norm(w) ** 2)
-    return scalar_multiply(w, scalar)
+    if v.field == 'real' and w.field == 'real':
+        dot = dot_product(v, w)
+        scalar = dot / (norm(w) ** 2)
+        return scalar_multiply(w, scalar)
+    elif v.field == 'complex' and w.field == 'complex':
+        dot = inner_product(v, w)
+        scalar = dot / (norm(w) ** 2)
+        return scalar_multiply(w, scalar)
+    else:
+        assert False, "Cannot project complex and real vectors"
 
 
 # component(v, w) produces the component of v along w
