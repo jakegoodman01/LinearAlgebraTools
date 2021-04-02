@@ -17,6 +17,7 @@ This file contains the documentation for vector.py
 #   * zero_vector() produces the zero_vector in the same dimension as self
 #   * is_zero() produces true if self is the zero vector
 #   * copy() produces a copy of self
+#   * sub(n) produces the nth component of self
 #
 
 # vector_equals(v, w) produces true if v equals w
@@ -54,5 +55,8 @@ This file contains the documentation for vector.py
 # vector_conj(v) produces the conjugate of vector v
 
 # inner_product(w, z) produces the standard inner product <w, z>
+
+# cross_product(u, v) produces the cross product of u and v
+#  requires: u and v are vectors in R^3
 
 

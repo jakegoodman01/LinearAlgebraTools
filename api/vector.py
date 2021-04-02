@@ -46,6 +46,10 @@ class Vector:
     def copy(self):
         return Vector(*self.components)
 
+    def sub(self, n):
+        assert 1 <= n <= self.dim, "Invalid component request"
+        return self.components[n - 1]
+
 
 def is_equal(v: Vector, w: Vector) -> bool:
     if v.dim == w.dim:
@@ -152,7 +156,14 @@ def inner_product(w: Vector, z: Vector) -> complex:
     return dot_product(w, vector_conj(z))
 
 
-
+def cross_product(u: Vector, v: Vector) -> Vector:
+    assert u.field == 'real' and v.field == 'real', "u and v must be real vectors"
+    assert u.dim == 3 and v.dim == 3, "u and v must be in 3-dimensions"
+    return Vector(
+        u.sub(2) * v.sub(3) - u.sub(3) * v.sub(2),
+        -(u.sub(1) * v.sub(3) - u.sub(3) * v.sub(1)),
+        u.sub(1) * v.sub(2) - u.sub(2) * v.sub(1)
+    )
 
 
 

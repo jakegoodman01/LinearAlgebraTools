@@ -261,6 +261,17 @@ class TestVector(unittest.TestCase):
         b = vc.Vector(complex(-3, 4), complex(3, 5))
         self.assertEqual(vc.inner_product(a, b), complex(-25, -10))
 
+    def test_cross_product(self):
+        a = vc.Vector(2, -3, 5)
+        b = vc.Vector(-2, 1, 4)
+        z = vc.cross_product(a, b)
+        self.assertTrue(
+            vc.is_equal(z, vc.Vector(-17, -18, -4))
+        )
+        self.assertTrue(
+            vc.is_orthogonal(a, z) and vc.is_orthogonal(b, z)
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
