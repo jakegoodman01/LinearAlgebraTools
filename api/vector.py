@@ -1,20 +1,21 @@
 
 from typing import List
+from math import sqrt
 
 """------------------------VECTOR STUFF------------------------"""
 
 
 class Vector:
-    def __init__(self, nums: List[int]):
+    def __init__(self, nums: List[float]):
         self.dim = len(nums)
         assert self.dim > 0, "Empty Coordinates List"
         self.components = nums
 
     def __repr__(self):
-        output = f'(\n {self.components[0]},\n'
+        output = f'[{self.components[0]}'
         for i in range(1, self.dim):
-            output += f' {self.components[i]},\n'
-        output += ')'
+            output += f', {self.components[i]}'
+        output += ']'
         return output
 
     # zero_vector() produces the zero_vector in the same dimension as self
@@ -78,7 +79,7 @@ def vector_subtract(v: Vector, w: Vector) -> Vector:
 
 # vector_scalar_multiply(v, s) produces the product of v and s
 # time: O(n)
-def vector_scalar_multiply(v: Vector, s: int) -> Vector:
+def vector_scalar_multiply(v: Vector, s: float) -> Vector:
     new_vector = v.copy()
     for i in range(v.dim):
         new_vector.components[i] *= s
@@ -96,6 +97,10 @@ def dot_product(v: Vector, w: Vector):
     return result
 
 
+# vector_length(v) produces the length (or norm) of v
+# time: O(n)
+def vector_length(v: Vector) -> float:
+    return sqrt(dot_product(v, v))
 
 
 

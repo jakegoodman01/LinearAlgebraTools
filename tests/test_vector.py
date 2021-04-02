@@ -175,6 +175,14 @@ class TestVector(unittest.TestCase):
             vc.dot_product(self.w, self.u) * s
         )
 
+    def test_vector_length(self):
+        a = 4
+        self.assertEqual(
+            # Asserts: norm(av) = |a| * norm(v)
+            vc.vector_length(vc.vector_scalar_multiply(self.u, a)),
+            abs(a) * vc.vector_length(self.u)
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
