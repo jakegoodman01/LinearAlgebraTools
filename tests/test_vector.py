@@ -104,6 +104,47 @@ class TestVector(unittest.TestCase):
             )
         )
 
+    def test_vector_scalar_multiply(self):
+        p = 2
+        q = -3
+        self.assertTrue(
+            # Asserts: (p + q)w = pw + qw
+            vc.vector_equals(
+                vc.vector_scalar_multiply(self.w, p + q),
+                vc.vector_add(
+                    vc.vector_scalar_multiply(self.w, p),
+                    vc.vector_scalar_multiply(self.w, q)
+                )
+            )
+        )
+        self.assertTrue(
+            # Asserts: (pq)v = p(qv)
+            vc.vector_equals(
+                vc.vector_scalar_multiply(self.u, p * q),
+                vc.vector_scalar_multiply(
+                    vc.vector_scalar_multiply(self.u, q),
+                    p
+                )
+            )
+        )
+        self.assertTrue(
+            # Asserts: p(u + w) = pu + pw
+            vc.vector_equals(
+                vc.vector_scalar_multiply(
+                    vc.vector_add(self.u, self.w),
+                    p
+                ),
+                vc.vector_add(
+                    vc.vector_scalar_multiply(self.u, p),
+                    vc.vector_scalar_multiply(self.w, p)
+                )
+            )
+        )
+        self.assertTrue(
+            # Asserts: 0u = 0
+            vc.vector_scalar_multiply(self.w, 0).is_zero()
+        )
+
 
 if __name__ == '__main__':
     unittest.main()

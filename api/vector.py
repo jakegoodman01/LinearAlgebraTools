@@ -23,6 +23,11 @@ class Vector:
         zero = Vector([0] * self.dim)
         return zero
 
+    # is_zero() produces true if self is the zero vector
+    # time: O(n)
+    def is_zero(self):
+        return vector_equals(self, self.zero_vector())
+
     # copy() produces a copy of self
     def copy(self):
         new_vector = self.zero_vector()
@@ -71,7 +76,11 @@ def vector_subtract(v: Vector, w: Vector) -> Vector:
 
 # vector_scalar_multiply(v, s) produces the product of v and s
 # time: O(n)
-
+def vector_scalar_multiply(v: Vector, s: int) -> Vector:
+    new_vector = v.copy()
+    for i in range(v.dim):
+        new_vector.components[i] *= s
+    return new_vector
 
 
 
