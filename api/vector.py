@@ -1,6 +1,6 @@
 
 from typing import List
-from math import sqrt
+from math import acos, sqrt
 
 """------------------------VECTOR STUFF------------------------"""
 
@@ -8,10 +8,12 @@ TOLERANCE = 0.0001
 
 
 class Vector:
-    def __init__(self, nums: List[float]):
-        self.dim = len(nums)
+    def __init__(self, *args):
+        self.components = []
+        for i in args:
+            self.components.append(i)
+        self.dim = len(self.components)
         assert self.dim > 0, "Empty Coordinates List"
-        self.components = nums
 
     def __repr__(self):
         output = f'[{self.components[0]}'
@@ -21,15 +23,13 @@ class Vector:
         return output
 
     # zero_vector() produces the zero_vector in the same dimension as self
-    # time: O(1)
     def zero_vector(self):
-        zero = Vector([0] * self.dim)
-        return zero
+        zeros = [0] * self.dim
+        return Vector(*zeros)
 
     # is_zero() produces true if self is the zero vector
-    # time: O(n)
     def is_zero(self):
-        return vector_equals(self, self.zero_vector())
+        return is_equal(self, self.zero_vector())
 
     # copy() produces a copy of self
     def copy(self):
@@ -40,8 +40,7 @@ class Vector:
 
 
 # vector_equals(v, w) produces true if v equals w
-# time: O(n)
-def vector_equals(v: Vector, w: Vector) -> bool:
+def is_equal(v: Vector, w: Vector) -> bool:
     if v.dim == w.dim:
         for i in range(v.dim):
             if abs(v.components[i] - w.components[i]) > TOLERANCE:
@@ -52,20 +51,18 @@ def vector_equals(v: Vector, w: Vector) -> bool:
 
 # vector_add(v, w, *args) produces the sum of v, w and args
 # requires: v and w are in the same dimension
-# time: O(n)
-def vector_add(v: Vector, w: Vector, *args: Vector) -> Vector:
+def add(v: Vector, w: Vector, *args: Vector) -> Vector:
     assert v.dim == w.dim, "Can't add vectors of different dimensions"
     new_vector = v.zero_vector()
     for i in range(v.dim):
         new_vector.components[i] = v.components[i] + w.components[i]
     for vector in args:
-        new_vector = vector_add(new_vector, vector)
+        new_vector = add(new_vector, vector)
     return new_vector
 
 
 # vector_negate(v) produces -v
-# time: O(n)
-def vector_negate(v: Vector) -> Vector:
+def negate(v: Vector) -> Vector:
     new_vector = v.zero_vector()
     for i in range(v.dim):
         new_vector.components[i] -= v.components[i]
@@ -74,14 +71,12 @@ def vector_negate(v: Vector) -> Vector:
 
 # vector_subtract(v, w) produces the difference v - w
 # requires: v and w are in the same dimension
-# time: O(n)
-def vector_subtract(v: Vector, w: Vector) -> Vector:
-    return vector_add(v, vector_negate(w))
+def subtract(v: Vector, w: Vector) -> Vector:
+    return add(v, negate(w))
 
 
 # vector_scalar_multiply(v, s) produces the product of v and s
-# time: O(n)
-def vector_scalar_multiply(v: Vector, s: float) -> Vector:
+def scalar_multiply(v: Vector, s: float) -> Vector:
     new_vector = v.copy()
     for i in range(v.dim):
         new_vector.components[i] *= s
@@ -90,7 +85,6 @@ def vector_scalar_multiply(v: Vector, s: float) -> Vector:
 
 # dot_product(v, w) produces the dot product of v and w
 # requires: v and w are in the same dimension
-# time: O(n)
 def dot_product(v: Vector, w: Vector):
     assert v.dim == w.dim, "Can't dot vectors of different dimensions"
     result = 0
@@ -100,18 +94,28 @@ def dot_product(v: Vector, w: Vector):
 
 
 # vector_length(v) produces the length (or norm) of v
-# time: O(n)
-def vector_length(v: Vector) -> float:
+def norm(v: Vector) -> float:
     return sqrt(dot_product(v, v))
 
 
 # normalize(v) produces v normalized
-# time: O(n)
 def normalize(v: Vector) -> Vector:
-    return vector_scalar_multiply(
+    return scalar_multiply(
         v,
-        1 / vector_length(v)
+        1 / norm(v)
     )
+
+
+# is_orthogonal(v, w) produces true of v and w are orthogonal
+def is_orthogonal(v: Vector, w: Vector) -> bool:
+    return dot_product(v, w) == 0
+
+
+# angle(v, w) produces the angle, in radians [0, pi], between v and w
+def angle(v: Vector, w: Vector) -> float:
+    dot = dot_product(v, w)
+    arg = dot / (norm(v) * norm(w))
+    return acos(arg)
 
 
 
