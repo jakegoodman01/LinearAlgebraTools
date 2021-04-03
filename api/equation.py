@@ -11,9 +11,13 @@ class LinearEquation:
 
     def __repr__(self):
         output = ''
-        output += f'{self.a.sub(1)}*x{1}'
+        if self.a.sub(1) != 0:
+            output += f'({self.a.sub(1)})x{1}'
         for i in range(2, self.n + 1):
-            output += f' + {self.a.sub(i)}*x{i}'
+            if self.a.sub(i) != 0:
+                if output != '':
+                    output += ' + '
+                output += f'({self.a.sub(i)})x{i}'
         output += f' = {self.rhs}'
         return output
 
