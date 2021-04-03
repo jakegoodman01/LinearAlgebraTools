@@ -108,7 +108,6 @@ def is_scalar_multiple(v: Vector, w: Vector) -> bool:
         else:
             return False
     assert m != 0, "Something went wrong..."
-    print(m)
     return True
 
 

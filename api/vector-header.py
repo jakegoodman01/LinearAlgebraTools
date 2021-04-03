@@ -7,11 +7,16 @@ This file contains the documentation for vector.py
 
 # modulus(z) produces the modulus of z
 
-# Vector:
+
+# Vector(*args):
+#    A Vector object represents the vector with the given coordinates in args
+#    Vector = (args[0], args[1], ..., args[n])^T
+#    :param args: the coordinates of the Vector
+#
 #  FIELDS:
-#   * components
-#   * field
-#   * dim
+#   * components: the list of the components of the vector
+#   * field: the field of the vector
+#   * dim: the dimension of the vector
 #
 #  METHODS:
 #   * zero_vector() produces the zero_vector in the same dimension as self
@@ -19,6 +24,7 @@ This file contains the documentation for vector.py
 #   * copy() produces a copy of self
 #   * sub(n) produces the nth component of self
 #
+
 
 # is_equal(v, w) produces true if v equals w
 
