@@ -185,4 +185,16 @@ def cross_product(u: Vector, v: Vector) -> Vector:
     )
 
 
+def extend_zeros(v: Vector, n: int):
+    v.components += [0] * n
+    v.dim = len(v.components)
+
+
+
+
+
+
+
+
+
 

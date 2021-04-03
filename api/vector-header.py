@@ -39,7 +39,7 @@ This file contains the documentation for vector.py
 # scalar_multiply(v, s) produces the product of v and s
 #  requires: v and s are in the same field
 
-# is_scalar_multiple(v, w) produces true if v and w are scalar multiples of eachother
+# is_scalar_multiple(v, w) produces true if v and w are scalar multiples of each other
 #  requires: v and w are in the same dimension
 
 # dot_product(v, w) produces the dot product of v and w
@@ -67,5 +67,7 @@ This file contains the documentation for vector.py
 
 # cross_product(u, v) produces the cross product of u and v
 #  requires: u and v are vectors in R^3
+
+# extend_zeros(v, n) adds n zeros of "padding" onto the tail of v, modifies v
 
 
