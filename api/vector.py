@@ -92,6 +92,26 @@ def scalar_multiply(v: Vector, s) -> Vector:
     return new_vector
 
 
+def is_scalar_multiple(v: Vector, w: Vector) -> bool:
+    assert v.dim == w.dim, "v and w are not in the same dimension"
+    if v.is_zero() or w.is_zero():
+        return True
+    m = 0  # m is the scaling factor, to satisfy v = mw
+    for i in range(1, v.dim + 1):
+        if v.sub(i) == w.sub(i) == 0:
+            pass
+        elif v.sub(i) != 0 and w.sub(i) != 0:
+            if m == 0:
+                m = v.sub(i) / w.sub(i)
+            elif abs(v.sub(i) / w.sub(i) - m) > TOLERANCE:
+                return False
+        else:
+            return False
+    assert m != 0, "Something went wrong..."
+    print(m)
+    return True
+
+
 def dot_product(v: Vector, w: Vector):
     assert v.dim == w.dim, "Can't dot vectors of different dimensions"
     result = 0

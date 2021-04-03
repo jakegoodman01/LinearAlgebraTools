@@ -148,6 +148,20 @@ class TestVector(unittest.TestCase):
             vc.scalar_multiply(self.w, 0).is_zero()
         )
 
+    def test_is_scalar_multiple(self):
+        zero = vc.Vector(0, 0, 0, 0)
+        v = vc.Vector(1, 2, 3, 4)
+        w = vc.Vector(2, 4, 6, 8)
+        z = vc.Vector(0, -3, 0, -6)
+        x = vc.Vector(0, 1, 0, 2)
+        self.assertTrue(vc.is_scalar_multiple(v, zero))
+        self.assertTrue(vc.is_scalar_multiple(zero, v))
+        self.assertTrue(vc.is_scalar_multiple(zero, zero))
+        self.assertTrue(vc.is_scalar_multiple(v, v))
+        self.assertTrue(vc.is_scalar_multiple(z, x))
+        self.assertTrue(vc.is_scalar_multiple(x, z))
+        self.assertTrue(not vc.is_scalar_multiple(z, w))
+
     def test_dot_product(self):
         a = vc.Vector(2, 3)
         b = vc.Vector(5, 7)

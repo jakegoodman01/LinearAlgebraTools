@@ -20,18 +20,21 @@ This file contains the documentation for vector.py
 #   * sub(n) produces the nth component of self
 #
 
-# vector_equals(v, w) produces true if v equals w
+# is_equal(v, w) produces true if v equals w
 
-# vector_add(v, w, *args) produces the sum of v, w and args
+# add(v, w, *args) produces the sum of v, w and args
 #  requires: v and w are in the same dimension
 
-# vector_negate(v) produces -v
+# negate(v) produces -v
 
-# vector_subtract(v, w) produces the difference v - w
+# subtract(v, w) produces the difference v - w
 #  requires: v and w are in the same dimension
 
-# vector_scalar_multiply(v, s) produces the product of v and s
+# scalar_multiply(v, s) produces the product of v and s
 #  requires: v and s are in the same field
+
+# is_scalar_multiple(v, w) produces true if v and w are scalar multiples of eachother
+#  requires: v and w are in the same dimension
 
 # dot_product(v, w) produces the dot product of v and w
 #  requires: v and w are in the same dimension
