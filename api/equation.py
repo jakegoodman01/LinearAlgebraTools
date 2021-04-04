@@ -12,12 +12,12 @@ class LinearEquation:
     def __repr__(self):
         output = ''
         if self.a.sub(1) != 0:
-            output += f'({self.a.sub(1)})x{1}'
+            output += f'({self.a.sub(1)})y{1}'
         for i in range(2, self.n + 1):
             if self.a.sub(i) != 0:
                 if output != '':
                     output += ' + '
-                output += f'({self.a.sub(i)})x{i}'
+                output += f'({self.a.sub(i)})y{i}'
         output += f' = {self.rhs}'
         return output
 
@@ -134,6 +134,12 @@ def apply_ero(ls: LinearSystem, ero: ERO):
         scalar_multiply(scaled, c)
         ls.e[i] = add(ls.e[i], scaled)
 
+
+def include_equation(ls: LinearSystem, *args: LinearEquation) -> LinearSystem:
+    for e in args:
+        assert isinstance(e, LinearEquation)
+    equations = ls.e[1:] + list(args)
+    return LinearSystem(*equations)
 
 
 

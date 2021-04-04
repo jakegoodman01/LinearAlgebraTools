@@ -62,6 +62,9 @@ This file contains the documentation for equation.py
 
 # apply_ero(ls, ero) applies ero to ls, modifies ls
 
+# include_equation(ls, *args) produces a new LinearSystem, with the inclusion of the LinearEquations in args
+
+
 
 
 
