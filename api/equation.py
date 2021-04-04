@@ -12,13 +12,14 @@ class LinearEquation:
     def __repr__(self):
         output = ''
         if self.a.sub(1) != 0:
-            output += f'({self.a.sub(1)})y{1}'
+            output += f'({self.a.sub(1):^.2g})y{1}'
         for i in range(2, self.n + 1):
             if self.a.sub(i) != 0:
                 if output != '':
                     output += ' + '
-                output += f'({self.a.sub(i)})y{i}'
-        output += f' = {self.rhs}'
+                output += f'({self.a.sub(i):^.2g})y{i}'
+        if self.a.sub(1) != 0:
+            output += f' = {self.rhs:^.2g}'
         return output
 
     def copy(self):

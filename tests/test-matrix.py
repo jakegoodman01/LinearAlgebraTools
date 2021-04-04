@@ -8,19 +8,16 @@ from api import matrix as mx
 class TestMatrix(unittest.TestCase):
     def test_repr(self):
         grid = [
-            [1, 2, 0, 0],
-            [1, 2, 3, 1],
-            [-1, -1, 1, 1],
-            [0, 1, 1, 1],
-            [0, -1, 2, 0]
+            [3, -4, -1, -19],
+            [2, -3, 1, -22],
+            [1, 2, -1, 7],
+            [6, -12, 2, -70]
         ]
         A = mx.create_matrix(grid)
-        A.augment_with(vc.Vector(1, 0, -2, -1, 0))
-
-        mx.apply_ero(A, eq.ERO(3, [2, 1, -1]))
-        mx.apply_ero(A, eq.ERO(3, [3, 1, 1]))
-        mx.apply_ero(A, eq.ERO(1, [2, 3]))
-        print(A)
+        A.augment_with(vc.Vector(-8, -1, 2, -12))
+        print(A.ls)
+        mx.to_rref(A)
+        print(A.ls)
 
 
 if __name__ == '__main__':

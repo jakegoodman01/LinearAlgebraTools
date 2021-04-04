@@ -28,5 +28,8 @@ This file contains the documentation for matrix.py
 # create_matrix(grid) produces a matrix with the coordinates given in grid (2d-array)
 #
 # apply_ero(A, ero) applies ero to matrix A, modifies A
+#
+# to_rref(A) uses the Canonical-Gauss-Jordan algorithm to convert A into its RREF
+#  requires: the first column is not the zero vector
 
 
