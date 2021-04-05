@@ -1,5 +1,6 @@
 
-from api import vector as vc
+import api.vector as vc
+import api.matrix as mx
 
 
 class Span:

@@ -1,7 +1,8 @@
 
 from typing import List
-from api import equation as eq
-from api import vector as vc
+import api.equation as eq
+import api.vector as vc
+import api.space as sp
 
 
 class Matrix:

@@ -1,6 +1,6 @@
 
 from typing import List
-from api import vector as vc
+import api.vector as vc
 
 
 class LinearEquation:
