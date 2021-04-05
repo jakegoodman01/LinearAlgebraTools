@@ -49,7 +49,18 @@ class TestMatrix(unittest.TestCase):
             mx.create_matrix(b_grid)
         )
         mx.to_rref(sam)
-        print(sam)
+        # print(sam)
+
+    def test_complex_example(self):
+        grid = [
+            [complex(1, 1), complex(-2, -3)],
+            [complex(4, 5), complex(3, -2)]
+        ]
+        b = vc.Vector(complex(0, -15), complex(37, -7))
+        A = mx.create_matrix(grid)
+        A.augment_with(b)
+        mx.to_rref(A)
+        print(A)
 
 
 if __name__ == '__main__':

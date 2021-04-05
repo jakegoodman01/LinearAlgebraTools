@@ -18,13 +18,17 @@ class Matrix:
         for i in range(1, self.m + 1):
             output += '[ '
             for j in range(1, self.n + 1):
-                if self.sub(i, j) == 0:
+                if abs(self.sub(i, j)) < vc.TOLERANCE:
                     output += f'{0:^{width}.{decimals}g}'
+                elif isinstance(self.sub(i, j), complex):
+                    output += f'{vc.format_complex(self.sub(i, j)):^{width}}'
                 else:
                     output += f'{self.sub(i, j):^{width}.{decimals}g}'
             if self.augmented:
-                if self.aug(i) == 0:
+                if abs(self.aug(i)) < vc.TOLERANCE:
                     output += f' | {0:^{width}.{decimals}g}'
+                elif isinstance(self.aug(i), complex):
+                    output += f' | {vc.format_complex(self.aug(i)):^{width}}'
                 else:
                     output += f' | {self.aug(i):^{width}.{decimals}g}'
             output += ' ]\n'

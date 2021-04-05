@@ -13,6 +13,20 @@ def modulus(z: complex) -> float:
     return sqrt(arg.real)
 
 
+def format_complex(z: complex) -> str:
+    assert isinstance(z, complex)
+    output = ''
+    if abs(z.real) > TOLERANCE:
+        output += f'{z.real:g}'
+    if abs(z.imag) > TOLERANCE:
+        sign = '+' if z.imag > 0 else '-'
+        if output == '':
+            output += f'{z.imag:g}i'
+        else:
+            output += f'{sign}{abs(z.imag):g}i'
+    return output
+
+
 """------------------------VECTOR STUFF------------------------"""
 
 TOLERANCE = 0.0001

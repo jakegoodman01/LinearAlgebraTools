@@ -7,6 +7,8 @@ This file contains the documentation for vector.py
 
 # modulus(z) produces the modulus of z
 
+# format_complex(z) produces the string representation of z
+
 
 # Vector(*args):
 #    A Vector object represents the vector with the given coordinates in args
