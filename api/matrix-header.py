@@ -36,7 +36,17 @@ This file contains the documentation for matrix.py
 #   * m: number of rows
 #   * n: number of columns (in rhs)
 
+# zero_matrix(m, n) produces an m*n zero matrix
+
 # matrix_equal(A, B) produces true if A and B are identical matrices
+
+# matrix_add(A, B) produces the sum of A and B
+
+# matrix_negate(A) produces -A
+
+# matrix_subtract(A, B) produces A - B
+
+# matrix_scalar_product(A, c) produces cA
 
 # create_matrix(grid) produces a matrix with the coordinates given in grid (2d-array)
 
@@ -64,3 +74,4 @@ This file contains the documentation for matrix.py
 
 # identity(n) produces the identity matrix in n*n space
 
+# matrix_transpose(A) produces the transpose of A

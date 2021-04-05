@@ -111,8 +111,15 @@ class SuperAugmentedMatrix:
         return output
 
 
+def zero_matrix(m: int, n: int) -> Matrix:
+    return matrix_from_columns([
+        vc.Vector(*list([0] * m)) for i in range(n)
+    ])
+
+
 def matrix_equal(A: Matrix, B: Matrix) -> bool:
-    assert A.m == B.m and A.n == B.n, "Matrices have different dimensions"
+    if not (A.m == B.m and A.n == B.n):
+        return False
     assert A.augmented == B.augmented, "One Matrix is augmented, the other is not"
     if A.augmented and vc.is_equal(A.get_b(), B.get_b()):
         return False
@@ -120,6 +127,32 @@ def matrix_equal(A: Matrix, B: Matrix) -> bool:
         if not vc.is_equal(A.col(i), B.col(i)):
             return False
     return True
+
+
+def matrix_add(A: Matrix, B: Matrix) -> Matrix:
+    assert A.n == B.n and A.m == B.m, "Matrices have different dimensions"
+    cols = []
+    for i in range(1, B.n + 1):
+        cols.append(vc.add(A.col(i), B.col(i)))
+    return matrix_from_columns(cols)
+
+
+def matrix_negate(A: Matrix) -> Matrix:
+    cols = []
+    for i in range(1, A.n + 1):
+        cols.append(vc.negate(A.col(i)))
+    return matrix_from_columns(cols)
+
+
+def matrix_subtract(A: Matrix, B: Matrix) -> Matrix:
+    return matrix_add(A, matrix_negate(B))
+
+
+def matrix_scalar_product(A: Matrix, c) -> Matrix:
+    cols = []
+    for i in range(1, A.n + 1):
+        cols.append(vc.scalar_multiply(A.col(i), c))
+    return matrix_from_columns(cols)
 
 
 def create_matrix(grid) -> Matrix:
@@ -296,7 +329,11 @@ def identity(n: int) -> Matrix:
     return create_matrix(grid)
 
 
-
+def matrix_transpose(A: Matrix) -> Matrix:
+    grid = []
+    for i in range(1, A.n + 1):
+        grid.append(A.col(i).components)
+    return create_matrix(grid)
 
 
 

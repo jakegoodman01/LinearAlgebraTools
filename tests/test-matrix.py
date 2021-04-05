@@ -7,15 +7,16 @@ from api import matrix as mx
 
 class TestMatrix(unittest.TestCase):
     def test_repr(self):
-        grid = [
-            [2, -5, 5, -7],
-            [0, 0, 4, -9],
-            [0, 0, 0, 5],
-            [0, 0, 0, 0]
-        ]
-        A = mx.create_matrix(grid)
-        A.augment_with(vc.Vector(4, 3, 2, 0))
-        # print(mx.homogeneous(A))
+        A = mx.create_matrix([
+            [1, 1],
+            [0, 0]
+        ])
+        B = mx.create_matrix([
+            [1, 2],
+            [3, 4]
+        ])
+        print(mx.matrix_matrix_product(A, B))
+        print(mx.matrix_matrix_product(B, A))
 
     def test_sub(self):
         grid = [
@@ -137,7 +138,8 @@ class TestMatrix(unittest.TestCase):
 
 
     def test_has_solution(self):
-        print(mx.identity(10))
+        # print(mx.identity(10))
+        pass
 
 
 if __name__ == '__main__':
