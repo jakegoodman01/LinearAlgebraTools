@@ -23,7 +23,7 @@ class Matrix:
                     output += f'{self.sub(i, j):^{width}.{decimals}g}'
             if self.augmented:
                 if self.aug(i) == 0:
-                    output += f'{0:^{width}.{decimals}g}'
+                    output += f' | {0:^{width}.{decimals}g}'
                 else:
                     output += f' | {self.aug(i):^{width}.{decimals}g}'
             output += ' ]\n'
@@ -171,3 +171,19 @@ def is_consistent(A: Matrix) -> bool:
 
 def nullity(A: Matrix) -> int:
     return A.n - rank(A)
+
+
+def homogeneous(A: Matrix) -> Matrix:
+    B = A.copy()
+    ze = A.get_b().zero_vector()
+    B.augment_with(ze)
+    return B
+
+
+
+
+
+
+
+
+

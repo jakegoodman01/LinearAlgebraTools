@@ -38,3 +38,5 @@ This file contains the documentation for matrix.py
 
 # nullity(A) produces the nullity of A
 
+# homogeneous(A) produces the equivalent homogeneous system of A
+

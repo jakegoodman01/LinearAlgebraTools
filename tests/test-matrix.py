@@ -13,14 +13,25 @@ class TestMatrix(unittest.TestCase):
             [0, 0, 0, 5],
             [0, 0, 0, 0]
         ]
-        # A = mx.create_matrix(grid)
-        # A.augment_with(vc.Vector(4, 3, 2, 0))
-        e1 = eq.LinearEquation([2, 3], 4)
-        e2 = eq.LinearEquation([90, 90], 5)
-        A = mx.Matrix(eq.LinearSystem(e1, e2))
-        A.augmented = True
+        A = mx.create_matrix(grid)
+        A.augment_with(vc.Vector(4, 3, 2, 0))
+        print(mx.homogeneous(A))
+
+    def test_rref(self):
+        grid = [
+            [1, -2, -1, 3],
+            [2, -4, 1, 0],
+            [1, -2, 2, -3]
+        ]
+        A = mx.create_matrix(grid)
+        A.augment_with(vc.Vector(1, 5, 4))
         mx.to_rref(A)
-        print(A)
+        self.assertTrue(mx.is_consistent(A))
+
+        A = mx.create_matrix(grid)
+        A.augment_with(vc.Vector(1, 2, 3))
+        mx.to_rref(A)
+        self.assertFalse(mx.is_consistent(A))
 
 
 if __name__ == '__main__':
