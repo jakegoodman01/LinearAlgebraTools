@@ -277,6 +277,27 @@ def matrix_matrix_product(A: Matrix, B: Matrix):
     return matrix_from_columns(transformed)
 
 
+def col_space(A: Matrix) -> sp.Span:
+    return sp.Span(*[A.col(i) for i in range(1, A.n + 1)])
+
+
+def has_solution(A: Matrix, b: vc.Vector) -> bool:
+    if A.m != b.dim:
+        return False
+    return sp.contained_in_span(b, col_space(A))  # doesn't the abstraction here make you smile :)
+
+
+def identity(n: int) -> Matrix:
+    grid = []
+    for i in range(n):
+        row = [0] * n
+        row[i] = 1
+        grid.append(row)
+    return create_matrix(grid)
+
+
+
+
 
 
 

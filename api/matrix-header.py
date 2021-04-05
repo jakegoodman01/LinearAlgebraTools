@@ -57,3 +57,10 @@ This file contains the documentation for matrix.py
 
 # matrix_vector_product(A, v) produces the matrix vector product, Av
 
+# col_space(A) produces the column space of A, i.e., Col(A)
+
+# has_solution(A, b) produces true if there is a solution to the
+#  equation Ax = b, for some vector x
+
+# identity(n) produces the identity matrix in n*n space
+

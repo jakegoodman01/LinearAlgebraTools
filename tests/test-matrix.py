@@ -136,5 +136,9 @@ class TestMatrix(unittest.TestCase):
         self.assertTrue(mx.matrix_equal(C, ans))
 
 
+    def test_has_solution(self):
+        print(mx.identity(10))
+
+
 if __name__ == '__main__':
     unittest.main()
