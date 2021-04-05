@@ -24,8 +24,22 @@ This file contains the documentation for matrix.py
 #   * col(i) produces the ith column vector
 #   * get_b() produces the vector b, which is the augmented column
 
+# SuperAugmentedMatrix(rhs, lhs):
+#     A SuperAugmentedMatrix represents a system of linear equations with multiple
+#     potential solutions
+#     :param lhs: the coefficient matrix, not augmented
+#     :param rhs: the augmentation matrix, not augmented
+#
+#  FIELDS:
+#   * lhs: the coefficient matrix
+#   * rhs: the augmentation matrix
+#   * m: number of rows
+#   * n: number of columns (in rhs)
+
 
 # create_matrix(grid) produces a matrix with the coordinates given in grid (2d-array)
+
+# matrix_from_columns(cols) produces a matrix composed of the column vectors given in cols
 
 # apply_ero(A, ero) applies ero to matrix A, modifies A
 

@@ -46,6 +46,10 @@ class LinearSystem:
             output += f'\t{eq.__repr__()}\n'
         return output + ']'
 
+    def copy(self):
+        equations = [eq.copy() for eq in self.e[1:]]
+        return LinearSystem(*equations)
+
 
 class ERO:
     def __init__(self, t: int, instr: List[int]):

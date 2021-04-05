@@ -27,6 +27,9 @@ This file contains the documentation for equation.py
 #        e[0] is None
 #   * m: m is the number of equations in the system
 #   * n: is the number of unknowns in each equation
+#
+#  METHODS:
+#   * copy() produces a copy of self
 
 
 # ERO(t, instr):

@@ -1,4 +1,5 @@
 
+from typing import List
 from api import equation as eq
 from api import vector as vc
 
@@ -30,7 +31,7 @@ class Matrix:
         return output
 
     def copy(self):
-        return Matrix(self.ls)
+        return Matrix(self.ls.copy())
 
     def sub(self, i: int, j: int):
         row = self.ls.e[i]
@@ -75,6 +76,36 @@ class Matrix:
         return vc.Vector(*li)
 
 
+class SuperAugmentedMatrix:
+    def __init__(self, lhs: Matrix, rhs: Matrix):
+        assert rhs.m == lhs.m
+        assert not lhs.augmented and not rhs.augmented
+        self.rhs = rhs
+        self.lhs = lhs
+        self.m = lhs.m
+        self.n = lhs.n
+
+    def __repr__(self):
+        width = 6
+        decimals = 3
+        output = ''
+        for i in range(1, self.m + 1):
+            output += '[ '
+            for j in range(1, self.n + 1):
+                if self.lhs.sub(i, j) == 0:
+                    output += f'{0:^{width}.{decimals}g}'
+                else:
+                    output += f'{self.lhs.sub(i, j):^{width}.{decimals}g}'
+            output += f' | '
+            for j in range(1, self.rhs.n + 1):
+                if self.rhs.sub(i, j) == 0:
+                    output += f'{0:^{width}.{decimals}g}'
+                else:
+                    output += f'{self.rhs.sub(i, j):^{width}.{decimals}g}'
+            output += ' ]\n'
+        return output
+
+
 def create_matrix(grid) -> Matrix:
     system = eq.LinearSystem()
     for row in grid:
@@ -84,65 +115,88 @@ def create_matrix(grid) -> Matrix:
         )
     return Matrix(system)
 
+def matrix_from_columns(cols: List[vc.Vector]) -> Matrix:
+    assert len(cols) > 0, "Given empty list of vectors"
+    n = len(cols)
+    m = cols[0].dim
+    grid = []
+    for i in range(1, m + 1):
+        row = []
+        for v in cols:
+            assert v.dim == m, "Inconsistent dimensions of given cols"
+            row.append(v.sub(i))
+        grid.append(row)
+    return create_matrix(grid)
+
 
 def apply_ero(A: Matrix, ero):
     eq.apply_ero(A.ls, ero)
 
 
 def to_rref(A: Matrix):
-    assert(not A.col(1).is_zero())
+    if isinstance(A, SuperAugmentedMatrix):
+        rhs_col_vectors = []
+        for i in range(1, A.lhs.n + 1):
+            matrix = A.lhs.copy()
+            matrix.augment_with(A.rhs.col(i))
+            to_rref(matrix)
+            rhs_col_vectors.append(matrix.get_b())
+        to_rref(A.lhs)
+        A.rhs = matrix_from_columns(rhs_col_vectors)
+    else:
+        assert(not A.col(1).is_zero())
 
-    def next_pivot(i, j):
-        """
-        next_pivot(i, j) produces the coordinates of the next pivot, after (i,j)
-        modifies A so that it has a pivot at (i+1, q) if it exists, and transforms
-        other entries along column q to zero
-        :param i: row index
-        :param j: column index
-        :return: tuple(i+1, q), the next pivot, or (0,0) if it doesn't exist
-        """
-        # Step 4
-        k = 0
-        q = 0
-        for col in range(j + 1, A.n + 1):
-            for row in range(i + 1, A.m + 1):
-                if A.sub(row, col) != 0:
-                    k = row
-                    q = col
+        def next_pivot(i, j):
+            """
+            next_pivot(i, j) produces the coordinates of the next pivot, after (i,j)
+            modifies A so that it has a pivot at (i+1, q) if it exists, and transforms
+            other entries along column q to zero
+            :param i: row index
+            :param j: column index
+            :return: tuple(i+1, q), the next pivot, or (0,0) if it doesn't exist
+            """
+            # Step 4
+            k = 0
+            q = 0
+            for col in range(j + 1, A.n + 1):
+                for row in range(i + 1, A.m + 1):
+                    if A.sub(row, col) != 0:
+                        k = row
+                        q = col
+                        break
+                if k > 0:
                     break
-            if k > 0:
-                break
-        if k == 0 or q == 0:
-            return 0, 0
-        if k != i + 1:
-            apply_ero(A, eq.ERO(1, [i + 1, k]))
-        # Step 5
-        apply_ero(A, eq.ERO(2, [i + 1, 1 / A.sub(i + 1, q)]))
-        # Step 6
-        for m in range(1, A.m + 1):
-            if m != i + 1:
-                apply_ero(A, eq.ERO(3, [m, i + 1, -1 * A.sub(m, q)]))
-        return i + 1, q
+            if k == 0 or q == 0:
+                return 0, 0
+            if k != i + 1:
+                apply_ero(A, eq.ERO(1, [i + 1, k]))
+            # Step 5
+            apply_ero(A, eq.ERO(2, [i + 1, 1 / A.sub(i + 1, q)]))
+            # Step 6
+            for m in range(1, A.m + 1):
+                if m != i + 1:
+                    apply_ero(A, eq.ERO(3, [m, i + 1, -1 * A.sub(m, q)]))
+            return i + 1, q
 
-    # Step 1, obtain a pivot in the (1,1) position
-    i = 1
-    while A.sub(i, 1) == 0:
-        i += 1
-    if 1 < i:
-        apply_ero(A, eq.ERO(1, [1, i]))
-    assert A.sub(1, 1) != 0
-    # Step 2, scale row 1 by 1 / A.sub(1, 1)
-    apply_ero(A, eq.ERO(2, [1, 1 / A.sub(1, 1)]))
-    # Step 3, transform other entries in column 1 to zero
-    for m in range(2, A.m + 1):
-        apply_ero(A, eq.ERO(3, [m, 1, -1 * A.sub(m, 1)]))
-    t, r = 1, 1
-    while True:
-        tempt, tempr = next_pivot(t, r)
-        if tempt != 0:
-            t, r = tempt, tempr
-        else:
-            break
+        # Step 1, obtain a pivot in the (1,1) position
+        i = 1
+        while A.sub(i, 1) == 0:
+            i += 1
+        if 1 < i:
+            apply_ero(A, eq.ERO(1, [1, i]))
+        assert A.sub(1, 1) != 0
+        # Step 2, scale row 1 by 1 / A.sub(1, 1)
+        apply_ero(A, eq.ERO(2, [1, 1 / A.sub(1, 1)]))
+        # Step 3, transform other entries in column 1 to zero
+        for m in range(2, A.m + 1):
+            apply_ero(A, eq.ERO(3, [m, 1, -1 * A.sub(m, 1)]))
+        t, r = 1, 1
+        while True:
+            tempt, tempr = next_pivot(t, r)
+            if tempt != 0:
+                t, r = tempt, tempr
+            else:
+                break
 
 
 def rank(A: Matrix) -> int:

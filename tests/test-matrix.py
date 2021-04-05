@@ -15,7 +15,7 @@ class TestMatrix(unittest.TestCase):
         ]
         A = mx.create_matrix(grid)
         A.augment_with(vc.Vector(4, 3, 2, 0))
-        print(mx.homogeneous(A))
+        # print(mx.homogeneous(A))
 
     def test_rref(self):
         grid = [
@@ -32,6 +32,24 @@ class TestMatrix(unittest.TestCase):
         A.augment_with(vc.Vector(1, 2, 3))
         mx.to_rref(A)
         self.assertFalse(mx.is_consistent(A))
+
+    def test_super_matrix(self):
+        a_grid = [
+            [1, -2, -1, 3],
+            [2, -4, 1, 0],
+            [1, -2, 2, -3]
+        ]
+        b_grid = [
+            [1, 1, -1, 0],
+            [5, 2, 4, 0],
+            [4, 3, 5, 0]
+        ]
+        sam = mx.SuperAugmentedMatrix(
+            mx.create_matrix(a_grid),
+            mx.create_matrix(b_grid)
+        )
+        mx.to_rref(sam)
+        print(sam)
 
 
 if __name__ == '__main__':
