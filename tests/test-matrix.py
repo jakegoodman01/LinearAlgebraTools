@@ -17,6 +17,18 @@ class TestMatrix(unittest.TestCase):
         A.augment_with(vc.Vector(4, 3, 2, 0))
         # print(mx.homogeneous(A))
 
+    def test_sub(self):
+        grid = [
+            [1, 2],
+            [-3, -4],
+            [7, 9]
+        ]
+        A = mx.create_matrix(grid)
+        self.assertEqual(A.sub(1, 2), 2)
+        self.assertEqual(A.sub(2, 2), -4)
+        self.assertEqual(A.sub(3, 1), 7)
+        #print(A.row(1))
+
     def test_rref(self):
         grid = [
             [1, -2, -1, 3],
@@ -60,7 +72,68 @@ class TestMatrix(unittest.TestCase):
         A = mx.create_matrix(grid)
         A.augment_with(b)
         mx.to_rref(A)
-        print(A)
+        # print(A)
+
+    def test_matrix_vector_product(self):
+        A = mx.create_matrix([
+            [1, 6, 1],
+            [3, 4, 5],
+            [5, 2, -3]
+        ])
+        x = vc.Vector(1, -4, 6)
+        prod = mx.matrix_vector_product(A, x)
+        self.assertTrue(
+            vc.is_equal(
+                prod,
+                vc.Vector(-17, 17, -21)
+            )
+        )
+        A = mx.create_matrix([
+            [complex(1, 1), complex(2, 2), complex(3, -1)],
+            [complex(2, 3), complex(4, 1), complex(5, -2)]
+        ])
+        x = vc.Vector(1, complex(1, -1), complex(2, -3))
+        prod = mx.matrix_vector_product(A, x)
+        self.assertTrue(
+            vc.is_equal(
+                prod,
+                vc.Vector(complex(8, -10), complex(11, -19))
+            )
+        )
+
+    def test_matrix_matrix_product(self):
+        # Test 1
+        A = mx.create_matrix([
+            [1, 2],
+            [3, 5],
+            [8, 7]
+        ])
+        B = mx.create_matrix([
+            [-1, 3],
+            [2, -4]
+        ])
+        ans = mx.create_matrix([
+            [3, -5],
+            [7, -11],
+            [6, -4]
+        ])
+        C = mx.matrix_matrix_product(A, B)
+        self.assertTrue(mx.matrix_equal(C, ans))
+        # Test 2
+        A = mx.create_matrix([
+            [complex(2, -1), complex(1, -2)],
+            [complex(3, -2), complex(1, -3)]
+        ])
+        B = mx.create_matrix([
+            [complex(1, 1), complex(-2, 1)],
+            [complex(-1, 1), complex(3, 2)]
+        ])
+        ans = mx.create_matrix([
+            [complex(4, 4), 4],
+            [complex(7, 5), 5]
+        ])
+        C = mx.matrix_matrix_product(A, B)
+        self.assertTrue(mx.matrix_equal(C, ans))
 
 
 if __name__ == '__main__':

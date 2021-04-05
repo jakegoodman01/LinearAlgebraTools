@@ -36,6 +36,7 @@ This file contains the documentation for matrix.py
 #   * m: number of rows
 #   * n: number of columns (in rhs)
 
+# matrix_equal(A, B) produces true if A and B are identical matrices
 
 # create_matrix(grid) produces a matrix with the coordinates given in grid (2d-array)
 
@@ -53,4 +54,6 @@ This file contains the documentation for matrix.py
 # nullity(A) produces the nullity of A
 
 # homogeneous(A) produces the equivalent homogeneous system of A
+
+# matrix_vector_product(A, v) produces the matrix vector product, Av
 

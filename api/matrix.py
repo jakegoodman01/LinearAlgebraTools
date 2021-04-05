@@ -110,6 +110,17 @@ class SuperAugmentedMatrix:
         return output
 
 
+def matrix_equal(A: Matrix, B: Matrix) -> bool:
+    assert A.m == B.m and A.n == B.n, "Matrices have different dimensions"
+    assert A.augmented == B.augmented, "One Matrix is augmented, the other is not"
+    if A.augmented and vc.is_equal(A.get_b(), B.get_b()):
+        return False
+    for i in range(1, A.n + 1):
+        if not vc.is_equal(A.col(i), B.col(i)):
+            return False
+    return True
+
+
 def create_matrix(grid) -> Matrix:
     system = eq.LinearSystem()
     for row in grid:
@@ -118,6 +129,7 @@ def create_matrix(grid) -> Matrix:
             eq.LinearEquation(row, rhs=0)
         )
     return Matrix(system)
+
 
 def matrix_from_columns(cols: List[vc.Vector]) -> Matrix:
     assert len(cols) > 0, "Given empty list of vectors"
@@ -164,7 +176,7 @@ def to_rref(A: Matrix):
             q = 0
             for col in range(j + 1, A.n + 1):
                 for row in range(i + 1, A.m + 1):
-                    if A.sub(row, col) != 0:
+                    if abs(A.sub(row, col)) > vc.TOLERANCE:
                         k = row
                         q = col
                         break
@@ -238,8 +250,30 @@ def homogeneous(A: Matrix) -> Matrix:
     return B
 
 
+def matrix_vector_product(A: Matrix, v: vc.Vector) -> vc.Vector:
+    assert not A.augmented
+    assert A.n == v.dim
+    cols = []
+    for i in range(1, v.dim + 1):
+        cols.append(vc.scalar_multiply(
+            A.col(i), v.sub(i)
+        ))
+    assert len(cols) > 0
+    if len(cols) == 1:
+        return cols[0]
+    else:
+        return vc.add(cols[0], cols[1], *cols[2:])
 
 
+def matrix_matrix_product(A: Matrix, B: Matrix):
+    assert not A.augmented and not B.augmented
+    assert A.n == B.m
+    transformed = []
+    for i in range(1, B.n + 1):
+        basis = B.col(i)
+        transformed_basis = matrix_vector_product(A, basis)
+        transformed.append(transformed_basis)
+    return matrix_from_columns(transformed)
 
 
 
