@@ -23,13 +23,18 @@ This file contains the documentation for matrix.py
 #   * row(i) produces the ith row vector
 #   * col(i) produces the ith column vector
 #   * get_b() produces the vector b, which is the augmented column
-#
-#
+
+
 # create_matrix(grid) produces a matrix with the coordinates given in grid (2d-array)
-#
+
 # apply_ero(A, ero) applies ero to matrix A, modifies A
-#
+
 # to_rref(A) uses the Canonical-Gauss-Jordan algorithm to convert A into its RREF
 #  requires: the first column is not the zero vector
 
+# rank(A) produces the rank of A
+
+# is_consistent(A) produces true if A is consistent
+
+# nullity(A) produces the nullity of A
 

@@ -11,13 +11,21 @@ class Matrix:
         self.n = ls.n
 
     def __repr__(self):
+        width = 6
+        decimals = 3
         output = ''
         for i in range(1, self.m + 1):
             output += '[ '
             for j in range(1, self.n + 1):
-                output += f'{self.sub(i, j):^6.2g}'
+                if self.sub(i, j) == 0:
+                    output += f'{0:^{width}.{decimals}g}'
+                else:
+                    output += f'{self.sub(i, j):^{width}.{decimals}g}'
             if self.augmented:
-                output += f' | {self.aug(i):^6.2g}'
+                if self.aug(i) == 0:
+                    output += f'{0:^{width}.{decimals}g}'
+                else:
+                    output += f' | {self.aug(i):^{width}.{decimals}g}'
             output += ' ]\n'
         return output
 
@@ -137,3 +145,29 @@ def to_rref(A: Matrix):
             break
 
 
+def rank(A: Matrix) -> int:
+    B = A.copy()
+    to_rref(B)
+    r = 0
+    for m in range(1, A.m + 1):
+        if A.augmented:
+            if not eq.is_trivial_equation(B.ls.e[m]):
+                r += 1
+            else:
+                break
+        else:
+            if not B.ls.e[m].a.is_zero():
+                r += 1
+            else:
+                break
+    return r
+
+
+def is_consistent(A: Matrix) -> bool:
+    B = A.copy()
+    B.augmented = not A.augmented
+    return rank(A) == rank(B)
+
+
+def nullity(A: Matrix) -> int:
+    return A.n - rank(A)

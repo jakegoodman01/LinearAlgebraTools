@@ -64,6 +64,9 @@ This file contains the documentation for equation.py
 
 # include_equation(ls, *args) produces a new LinearSystem, with the inclusion of the LinearEquations in args
 
+# is_trivial_equation(le) produces true if le is the trivial equation, i.e., 0 = 0
+
+# is_inconsistent_equation(le) produces true if le is inconsistent, i.e., 0 = m, m != 0
 
 
 

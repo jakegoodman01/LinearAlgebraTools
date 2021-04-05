@@ -18,7 +18,7 @@ class LinearEquation:
                 if output != '':
                     output += ' + '
                 output += f'({self.a.sub(i):^.2g})y{i}'
-        if self.a.sub(1) != 0:
+        if not is_trivial_equation(self):
             output += f' = {self.rhs:^.2g}'
         return output
 
@@ -143,9 +143,12 @@ def include_equation(ls: LinearSystem, *args: LinearEquation) -> LinearSystem:
     return LinearSystem(*equations)
 
 
+def is_trivial_equation(le: LinearEquation) -> bool:
+    return le.a.is_zero() and le.rhs == 0
 
 
-
+def is_inconsistent_equation(le: LinearEquation) -> bool:
+    return le.a.is_zero() and le.rhs != 0
 
 
 
